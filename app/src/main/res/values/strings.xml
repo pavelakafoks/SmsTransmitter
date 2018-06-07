@@ -1,0 +1,90 @@
+<resources>
+
+    <string name="app_name">SMS Transmitter</string>
+    <string name="app_url"><a href="http://timeplan.me">TimePlan.me</a></string>
+    <string name="action_settings">Settings</string>
+    <string name="action_log">Log</string>
+    <string name="action_main">Main</string>
+
+    <string name="main_status_description">The status of sending</string>
+
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_log">Log</string>
+    <string name="title_getting_data">Receiving data…</string>
+
+    <string name="refresh">Run</string>
+
+    <string name="log_begin">Manual start of sending. Connecting to server…</string>
+    <string name="log_begin_wrong_time">Sending is enabled from 9 am to 9 pm.</string>
+    <string name="log_begin_is_alarm">Start of sending by schedule. Connecting to server…</string>
+    <string name="log_error">Error. </string>
+    <string name="log_no_messages">No new messages to send.</string>
+    <string name="log_send_error">Send error to phone ###.</string>
+    <string name="log_send_error_expired">Send error to phone ###. Send time is expired.</string>
+    <string name="log_send_error_global">Send sms global error. Try later.</string>
+    <string name="log_send_success">Message to phone ### is sent.</string>
+    <string name="log_web_server_error">Server connection error. Try later.</string>
+    <string name="log_web_server_response_error">Server response error. Try later.</string>
+    <string name="log_amount_sms_to_send">Received ### SMS to send.</string>
+    <string name="log_key_wrong">Wrong key.</string>
+
+    <string name="log_amount7Day">Sent SMS the last 7 days: </string>
+    <string name="log_amount30Day">Sent SMS the last 30 days: </string>
+
+    <string name="alarm_error">Schedule run error.</string>
+
+    <string name="notification_text">Open SMS Transmitter</string>
+
+    <string name="settings_key">Private Key: </string>
+    <string name="settings_key_help">If you are using Sms Transmitter for site timeplan.me, you can find the key in the private cabinet: [Settings] -> [Notifications]</string>
+    <string name="settings_key_automatically">Send sms automatically: </string>
+    <string name="settings_frequency_label">Frequency: </string>
+    <string name="settings_save">Save</string>
+    <string name="settings_cancel">Cancel</string>
+    <string name="settings_error_empty_key">Need to set Private Key in Settings.</string>
+    <string name="settings_error_empty_gateway">Need to set Gateway Url in Settings.</string>
+    <string name="settings_battery_save_mode">Battery save mode.</string>
+    <string name="settings_url_gateway_label">Gateway URL: </string>
+    <string name="settings_url_gateway_default">https://timeplan.me/api/smstransmitter/v1</string>
+
+    <string name="demo_settings_key">ABCDEFG</string>
+
+    <string name="demo_messages_1_phone">10123456781</string>
+    <string name="demo_messages_1_name">Pavel</string>
+    <string name="demo_messages_1_message">Reminder. \"Beauty Studio FOX\". We are waiting for you today, 06/01/18 at 3:00 pm</string>
+    <string name="demo_messages_2_phone">10123456782</string>
+    <string name="demo_messages_2_name">Emma</string>
+    <string name="demo_messages_2_message">Reminder. \"Beauty Studio FOX\". We are waiting for you tomorrow, 06/02/18 at 4:00 pm</string>
+    <string name="demo_messages_3_phone">10123456783</string>
+    <string name="demo_messages_3_name">Sophia</string>
+    <string name="demo_messages_3_message">Attention, your appointment 06/01/18 at 5:00 pm in \"Beauty Studio FOX\" was cancelled. Please, remake an appointment</string>
+    <string name="demo_messages_4_phone">10123456784</string>
+    <string name="demo_messages_4_name">Isabella</string>
+    <string name="demo_messages_4_message">Reminder. \"Beauty Studio FOX\". We are waiting for you tomorow, 06/02/18 at 6:00 pm</string>
+    <string name="demo_messages_5_phone">10123456785</string>
+    <string name="demo_messages_5_name">Danial</string>
+    <string name="demo_messages_5_message">Reminder. \"Beauty Studio FOX\". We are waiting for you tomorrow, 06/02/18 at 5:00 pm</string>
+
+    <string name="demo_log_1_information">Manual start of sending. Connecting to server…</string>
+    <string name="demo_log_2_information">No new messages to send.</string>
+    <string name="demo_log_3_information">Manual start of sending. Connecting to server…</string>
+    <string name="demo_log_4_information">Received 2 SMS to send.</string>
+    <string name="demo_log_5_information">Send error to phone +1-012-345-67-81. Send time is expired.</string>
+    <string name="demo_log_6_information">Message to phone +1-012-345-67-82 is sent.</string>
+    <string name="demo_log_7_information">Manual start of sending. Connecting to server…</string>
+    <string name="demo_log_8_information">Server connection error. Try later.</string>
+    <string name="demo_log_9_information">Start of sending by schedule. Connecting to server…</string>
+    <string name="demo_log_10_information">Received 1 SMS to send.</string>
+    <string name="demo_log_11_information">Message to phone +1-012-345-67-83 is sent.</string>
+    <string name="demo_log_12_information">Start of sending by schedule. Connecting to server…</string>
+    <string name="demo_log_13_information">Received 1 SMS to send.</string>
+    <string name="demo_log_14_information">Message to phone +1-012-345-67-84 is sent.</string>
+
+    <string-array name="frequency">
+        <item>15 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,88 @@
+<resources>
+
+    <string name="app_name">SMS Transmitter</string>
+    <string name="app_url"><a href="http://napiem.com">NaPriem.com</a></string>
+    <string name="action_settings">Настройки</string>
+    <string name="action_log">История</string>
+    <string name="action_main">На главную</string>
+
+    <string name="main_status_description">Статус отправки</string>
+
+    <string name="title_activity_settings">Настройки</string>
+    <string name="title_activity_log">История</string>
+    <string name="title_getting_data">Идёт обработка данных…</string>
+
+    <string name="refresh">Запустить</string>
+
+    <string name="log_begin">Ручной запуск рассылки. Подключение к серверу…</string>
+    <string name="log_begin_wrong_time">Рассылка смс разрешена с 9 утра до 9 вечера.</string>
+    <string name="log_begin_is_alarm">Запуск рассылки по расписанию. Подключение к серверу…</string>
+    <string name="log_error">Ошибка. </string>
+    <string name="log_no_messages">Нет новых сообщений на отправку.</string>
+    <string name="log_send_error">Ошибка отправки на номер ###</string>
+    <string name="log_send_error_expired">Ошибка отправки на номер ###. Истекло время отправки</string>
+    <string name="log_send_error_global">Ошибка при попытке отправки смс.</string>
+    <string name="log_send_success">Сообщение на номер ### успешно отправлено.</string>
+    <string name="log_web_server_error">Ошибка подключения к серверу. Попробуйте позже.</string>
+    <string name="log_web_server_response_error">Ошибка ответа веб сервера. Попробуйте позже.</string>
+    <string name="log_amount_sms_to_send">Получено ### смс на отправку.</string>
+    <string name="log_key_wrong">Неверный ключ.</string>
+
+    <string name="log_amount7Day">Отправленно смс за 7 дней: </string>
+    <string name="log_amount30Day">Отправлено смс за 30 дней: </string>
+
+    <string name="alarm_error">Ошибка запуска по расписанию.</string>
+
+    <string name="notification_text">Открыть SMS Transmitter</string>
+
+    <string name="settings_key">Секретный ключ: </string>
+    <string name="settings_key_help">Если вы используете Sms Transmitter для сайта napriem.com, то ключ находится в личном кабинете администратора: [Настройки] -> [Уведомления]</string>
+    <string name="settings_key_automatically">Отправлять смс автоматически: </string>
+    <string name="settings_frequency_label">Частота: </string>
+    <string name="settings_save">Сохранить</string>
+    <string name="settings_cancel">Отменить</string>
+    <string name="settings_error_empty_key">Задайте ключ подключения в настройках.</string>
+    <string name="settings_error_empty_gateway">Установите url адрес забора сообщений.</string>
+    <string name="settings_battery_save_mode">Режим экономии аккумулятора.</string>
+    <string name="settings_url_gateway_label">URL шлюза:</string>
+    <string name="settings_url_gateway_default">https://napriem.com/api/smstransmitter/v1</string>
+
+    <string name="demo_messages_1_phone">70123456781</string>
+    <string name="demo_messages_1_name">Павел</string>
+    <string name="demo_messages_1_message">Напоминание от \"Студия Красоты ЛИС\". Вы записаны на завтра, 2 июня в 15:00</string>
+    <string name="demo_messages_2_phone">70123456782</string>
+    <string name="demo_messages_2_name">Эмма</string>
+    <string name="demo_messages_2_message">Напоминание от \"Студия Красоты ЛИС\". Вы записаны на сегодня, 1 июня в 16:00</string>
+    <string name="demo_messages_3_phone">70123456783</string>
+    <string name="demo_messages_3_name">Марина</string>
+    <string name="demo_messages_3_message">Внимание, ваша запись в \"Студия Красоты ЛИС\" на 2 июня в 17:00 была отменена администратором</string>
+    <string name="demo_messages_4_phone">70123456784</string>
+    <string name="demo_messages_4_name">Вероника</string>
+    <string name="demo_messages_4_message">Напоминание от \"Студия Красоты ЛИС\". Вы записаны на сегодня, 1 июня в 18:00</string>
+    <string name="demo_messages_5_phone">70123456785</string>
+    <string name="demo_messages_5_name">Даниил</string>
+    <string name="demo_messages_5_message">Напоминание от \"Студия Красоты ЛИС\". Вы записаны на сегодня, 1 июня в 19:00</string>
+
+    <string name="demo_log_1_information">Ручной запуск рассылки. Подключение к серверу…</string>
+    <string name="demo_log_2_information">Нет новых сообщений на отправку.</string>
+    <string name="demo_log_3_information">Ручной запуск рассылки. Подключение к серверу…</string>
+    <string name="demo_log_4_information">Получено 2 смс на отправку.</string>
+    <string name="demo_log_5_information">Ошибка отправки на номер +7-012-345-67-81. Истекло время отправки.</string>
+    <string name="demo_log_6_information">Сообщение на номер +7-012-345-67-82 успешно отправлено.</string>
+    <string name="demo_log_7_information">Ручной запуск рассылки. Подключение к серверу…</string>
+    <string name="demo_log_8_information">Ошибка подключения к серверу. Попробуйте позже.</string>
+    <string name="demo_log_9_information">Запуск рассылки по расписанию. Подключение к серверу…</string>
+    <string name="demo_log_10_information">Получено 1 смс на отправку.</string>
+    <string name="demo_log_11_information">Сообщение на номер +7-012-345-67-83 успешно отправлено.</string>
+    <string name="demo_log_12_information">Запуск рассылки по расписанию. Подключение к серверу…</string>
+    <string name="demo_log_13_information">Получено 1 смс на отправку.</string>
+    <string name="demo_log_14_information">Сообщение на номер +7-012-345-67-84 успешно отправлено.</string>
+
+    <string-array name="frequency">
+        <item>15 минут</item>
+        <item>20 минут</item>
+        <item>30 минут</item>
+        <item>60 минут</item>
+    </string-array>
+
+</resources>
