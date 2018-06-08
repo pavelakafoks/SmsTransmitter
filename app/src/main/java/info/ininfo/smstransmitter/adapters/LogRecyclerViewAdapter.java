@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.adapters;
+package info.ininfo.smstransmitter.adapters;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import timeplan.me.smstransmitter.helpers.DateTimeHelper;
-import timeplan.me.smstransmitter.models.EnumLogType;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.models.Log;
+import info.ininfo.smstransmitter.helpers.DateTimeHelper;
+import info.ininfo.smstransmitter.models.EnumLogType;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.models.Log;
 
 public class LogRecyclerViewAdapter extends RecyclerView.Adapter<LogRecyclerViewAdapter.ViewHolder> {
 

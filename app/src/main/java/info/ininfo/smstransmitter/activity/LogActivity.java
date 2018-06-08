@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.activity;
+package info.ininfo.smstransmitter.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import timeplan.me.smstransmitter.helpers.DbHelper;
-import timeplan.me.smstransmitter.adapters.LogRecyclerViewAdapter;
-import timeplan.me.smstransmitter.models.MessagesAmount;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.models.Log;
+import info.ininfo.smstransmitter.helpers.DbHelper;
+import info.ininfo.smstransmitter.adapters.LogRecyclerViewAdapter;
+import info.ininfo.smstransmitter.models.MessagesAmount;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.models.Log;
 
 public class LogActivity extends AppCompatActivity {
 

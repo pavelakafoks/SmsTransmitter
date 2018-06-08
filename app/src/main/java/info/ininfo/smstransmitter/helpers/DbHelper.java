@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.helpers;
+package info.ininfo.smstransmitter.helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.models.EnumLogType;
-import timeplan.me.smstransmitter.models.EnumMessageStatus;
-import timeplan.me.smstransmitter.models.Log;
-import timeplan.me.smstransmitter.models.Message;
-import timeplan.me.smstransmitter.models.MessagesAmount;
-import timeplan.me.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.models.EnumLogType;
+import info.ininfo.smstransmitter.models.EnumMessageStatus;
+import info.ininfo.smstransmitter.models.Log;
+import info.ininfo.smstransmitter.models.Message;
+import info.ininfo.smstransmitter.models.MessagesAmount;
+import info.ininfo.smstransmitter.models.Settings;
 
 public class DbHelper extends SQLiteOpenHelper {
 

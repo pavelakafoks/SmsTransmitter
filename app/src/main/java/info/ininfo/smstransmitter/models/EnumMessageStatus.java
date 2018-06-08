@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.models;
+package info.ininfo.smstransmitter.models;
 
 public enum EnumMessageStatus {
     New(0),

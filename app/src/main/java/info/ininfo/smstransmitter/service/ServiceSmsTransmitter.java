@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.service;
+package info.ininfo.smstransmitter.service;
 
 import android.app.ActivityManager;
 import android.app.Notification;
@@ -14,11 +14,11 @@ import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
-import timeplan.me.smstransmitter.helpers.DbHelper;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.activity.MainActivity;
-import timeplan.me.smstransmitter.models.EnumLogType;
-import timeplan.me.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.helpers.DbHelper;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.activity.MainActivity;
+import info.ininfo.smstransmitter.models.EnumLogType;
+import info.ininfo.smstransmitter.models.Settings;
 
 public class ServiceSmsTransmitter extends Service {
 

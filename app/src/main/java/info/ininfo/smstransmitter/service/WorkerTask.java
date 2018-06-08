@@ -1,10 +1,10 @@
-package timeplan.me.smstransmitter.service;
+package info.ininfo.smstransmitter.service;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import timeplan.me.smstransmitter.engine.Worker;
-import timeplan.me.smstransmitter.activity.MainActivity;
+import info.ininfo.smstransmitter.engine.Worker;
+import info.ininfo.smstransmitter.activity.MainActivity;
 
 
 public class WorkerTask extends AsyncTask<String, Void, String> {

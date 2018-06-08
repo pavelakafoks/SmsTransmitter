@@ -1,10 +1,10 @@
-package timeplan.me.smstransmitter.service;
+package info.ininfo.smstransmitter.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import timeplan.me.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.models.Settings;
 
 
 public class AutoStart extends BroadcastReceiver

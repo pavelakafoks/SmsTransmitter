@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.activity;
+package info.ininfo.smstransmitter.activity;
 
 import android.Manifest;
 import android.app.AlarmManager;
@@ -23,22 +23,22 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import timeplan.me.smstransmitter.helpers.DbHelper;
-import timeplan.me.smstransmitter.models.EnumLogType;
-import timeplan.me.smstransmitter.adapters.MessageRecyclerViewAdapter;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.service.ServiceSmsTransmitter;
-import timeplan.me.smstransmitter.models.Settings;
-import timeplan.me.smstransmitter.engine.Worker;
-import timeplan.me.smstransmitter.service.WorkerTask;
-import timeplan.me.smstransmitter.models.Message;
+import info.ininfo.smstransmitter.helpers.DbHelper;
+import info.ininfo.smstransmitter.models.EnumLogType;
+import info.ininfo.smstransmitter.adapters.MessageRecyclerViewAdapter;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
+import info.ininfo.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.engine.Worker;
+import info.ininfo.smstransmitter.service.WorkerTask;
+import info.ininfo.smstransmitter.models.Message;
 
 public class MainActivity extends AppCompatActivity {
 
     private FloatingActionButton refreshButton;
-    private WorkerTask receiverTask;
-    private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
+    //private WorkerTask receiverTask;
+    //private AlarmManager alarmMgr;
+    //private PendingIntent alarmIntent;
 
 
     @Override
@@ -60,51 +60,12 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-            /*
-            Date dtSend = dtEvent;
-            try{
-                dtSend = format.parse("2000-01-01 01-01-01");
-            } catch (Exception e) {
-            }
-
-            Log.d("Insert: ", "Inserting ..");
-            db.messageInsert("+79999999999"
-                    , "Андрей"
-                    , dtEvent
-                    , dtSend
-                    , 2  // status
-                    , "Проверка длинного сообщения как работает. Один два три четыре пять. Тест на сообщение из нескольких кусочков. И ещё немного букв для тестов! да!"
-                    , 0);
-            Log.d("Reading: ", "Reading all contacts..");
-            */
-
-
             // start bind Messages List
             List<Message> messages = db.MessageGetAll();
             MessageRecyclerViewAdapter messageAdapter = new MessageRecyclerViewAdapter(messages);
             RecyclerView mRecycler = (RecyclerView) this.findViewById(R.id.listMessages);
             mRecycler.setAdapter(messageAdapter);
             // end Messages bind
-
-            /*
-            for (Message m : messages) {
-                String dtCreate = "";
-                String dtSendStr = "";
-                String dtEventStr = "";
-                try{
-                    dtCreate = DateTimeHelper.ToString(m.DtCreate);
-                    dtSendStr = DateTimeHelper.ToString(m.DtSend);
-                    dtEventStr = DateTimeHelper.ToString(m.DtEvent);
-                }catch (Exception e){
-
-                }
-                String log = "Phone: " + m.Phone + ", Name: " + m.Name + ", DtCreate: " + dtCreate
-                        + ", DtEvent: " + dtEventStr + ", DtSend: " + dtSendStr
-                        + ", StatusId: " + m.StatusId + ", Message: " + m.Message
-                        + ", ServerId: " + m.ServerId;
-                android.util.Log.d("Message: ", log);
-            }
-            */
 
             mRecycler.setNestedScrollingEnabled(false);    // turn on inertia scroll
 

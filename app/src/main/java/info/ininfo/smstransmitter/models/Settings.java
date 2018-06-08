@@ -1,9 +1,9 @@
-package timeplan.me.smstransmitter.models;
+package info.ininfo.smstransmitter.models;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import timeplan.me.smstransmitter.R;
+import info.ininfo.smstransmitter.R;
 
 public class Settings {
 

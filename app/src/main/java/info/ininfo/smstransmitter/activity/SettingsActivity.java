@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.activity;
+package info.ininfo.smstransmitter.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import timeplan.me.smstransmitter.helpers.DbHelper;
-import timeplan.me.smstransmitter.models.EnumLogType;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.service.ServiceSmsTransmitter;
-import timeplan.me.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.helpers.DbHelper;
+import info.ininfo.smstransmitter.models.EnumLogType;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
+import info.ininfo.smstransmitter.models.Settings;
 
 public class SettingsActivity extends AppCompatActivity {
 

@@ -1,5 +1,5 @@
 # SMS Transmitter
-Automatic sms sender from Android device
+Automatic sms sender from Android device, android sms gateway
 
 Описание на русском языке будет ниже.
 

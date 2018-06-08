@@ -1,6 +1,6 @@
 /*
 
-package timeplan.me.smstransmitter;
+package info.ininfo.smstransmitter;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

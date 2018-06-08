@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="timeplan.me.smstransmitter.activity.LogActivity">
+    tools:context="info.ininfo.smstransmitter.activity.LogActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

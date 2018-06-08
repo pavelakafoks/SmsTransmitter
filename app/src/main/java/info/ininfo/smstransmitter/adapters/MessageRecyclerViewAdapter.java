@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.adapters;
+package info.ininfo.smstransmitter.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import timeplan.me.smstransmitter.helpers.DateTimeHelper;
-import timeplan.me.smstransmitter.models.EnumMessageStatus;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.models.Message;
+import info.ininfo.smstransmitter.helpers.DateTimeHelper;
+import info.ininfo.smstransmitter.models.EnumMessageStatus;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.models.Message;
 
 
 public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecyclerViewAdapter.ViewHolder> {
@@ -45,11 +45,11 @@ public class MessageRecyclerViewAdapter extends RecyclerView.Adapter<MessageRecy
         holder.mDtSend.setText(dtSend);
         holder.mMessageView.setText(message.Message);
         if(message.StatusId == EnumMessageStatus.Sent) {
-            Uri uri = Uri.parse("android.resource://timeplan.me.smstransmitter/" + android.R.drawable.presence_online);
+            Uri uri = Uri.parse("android.resource://info.ininfo.smstransmitter/" + android.R.drawable.presence_online);
             holder.mStatusImage.setImageURI(uri);
         }
         else if(message.StatusId == EnumMessageStatus.Error) {
-            Uri uri = Uri.parse("android.resource://timeplan.me.smstransmitter/" + android.R.drawable.presence_busy);
+            Uri uri = Uri.parse("android.resource://info.ininfo.smstransmitter/" + android.R.drawable.presence_busy);
             holder.mStatusImage.setImageURI(uri);
         }
 

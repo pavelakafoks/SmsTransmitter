@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.engine;
+package info.ininfo.smstransmitter.engine;
 
 import android.content.Context;
 import android.telephony.SmsManager;
@@ -21,15 +21,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import timeplan.me.smstransmitter.helpers.DateTimeHelper;
-import timeplan.me.smstransmitter.helpers.DbHelper;
-import timeplan.me.smstransmitter.R;
-import timeplan.me.smstransmitter.models.EnumLogType;
-import timeplan.me.smstransmitter.models.EnumMessageStatus;
-import timeplan.me.smstransmitter.models.Message;
-import timeplan.me.smstransmitter.models.ReceiverResponse;
-import timeplan.me.smstransmitter.models.ReceiverResponseItem;
-import timeplan.me.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.helpers.DateTimeHelper;
+import info.ininfo.smstransmitter.helpers.DbHelper;
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.models.EnumLogType;
+import info.ininfo.smstransmitter.models.EnumMessageStatus;
+import info.ininfo.smstransmitter.models.Message;
+import info.ininfo.smstransmitter.models.ReceiverResponse;
+import info.ininfo.smstransmitter.models.ReceiverResponseItem;
+import info.ininfo.smstransmitter.models.Settings;
 
 public class Worker {
 
@@ -152,7 +152,7 @@ public class Worker {
                     //        .create()
                     //        .fromJson(response, ReceiverResponse.class);
 
-                    if(receiverResponse.WrongKey) {
+                    if(receiverResponse.wrongKey) {
                         dbHelper.LogInsert(R.string.log_key_wrong, EnumLogType.Error);
                     }else{
                         if (receiverResponse.messages != null && receiverResponse.messages.size() > 0) {

@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="timeplan.me.smstransmitter.activity.MainActivity">
+    tools:context="info.ininfo.smstransmitter.activity.MainActivity">
     <item
         android:id="@+id/action_log"
         android:orderInCategory="100"

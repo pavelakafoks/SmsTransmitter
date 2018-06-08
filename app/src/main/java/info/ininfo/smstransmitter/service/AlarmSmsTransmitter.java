@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.service;
+package info.ininfo.smstransmitter.service;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.os.PowerManager;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
-import timeplan.me.smstransmitter.helpers.DbHelper;
-import timeplan.me.smstransmitter.engine.Worker;
-import timeplan.me.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.helpers.DbHelper;
+import info.ininfo.smstransmitter.engine.Worker;
+import info.ininfo.smstransmitter.models.Settings;
 
 public class AlarmSmsTransmitter extends WakefulBroadcastReceiver {
 

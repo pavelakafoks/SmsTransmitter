@@ -15,20 +15,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context="timeplan.me.smstransmitter.activity.MainActivity"
+            tools:context="info.ininfo.smstransmitter.activity.MainActivity"
             tools:showIn="@layout/activity_main">
 
                 <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
                     xmlns:app="http://schemas.android.com/apk/res-auto"
                     xmlns:tools="http://schemas.android.com/tools"
                     android:id="@+id/listMessages"
-                    android:name="timeplan.me.smstransmitter.MessageFragment"
+                    android:name="info.ininfo.smstransmitter.MessageFragment"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     app:layoutManager="LinearLayoutManager"
-                    tools:context="timeplan.me.smstransmitter.MessageFragment"
+                    tools:context="info.ininfo.smstransmitter.MessageFragment"
                     tools:listitem="@layout/fragment_message" />
 
         </android.support.v4.widget.NestedScrollView>

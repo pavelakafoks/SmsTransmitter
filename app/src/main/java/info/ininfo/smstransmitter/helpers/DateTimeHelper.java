@@ -1,4 +1,4 @@
-package timeplan.me.smstransmitter.helpers;
+package info.ininfo.smstransmitter.helpers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
