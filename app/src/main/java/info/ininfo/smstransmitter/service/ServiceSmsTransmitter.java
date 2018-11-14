@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.Toast;
 
 import info.ininfo.smstransmitter.helpers.DbHelper;
@@ -116,24 +117,32 @@ public class ServiceSmsTransmitter extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
 
         _context = this;
 
-        Bundle extras = intent.getExtras();
-        _batterySaveMode = (Boolean) extras.get("batterySaveMode");
-        _frequency = (int) extras.get("frequency");
-        _key = (String) extras.get("key");
+        // NULL REFERENCE ERROR
+        //Bundle extras = intent.getExtras();
+
+        _batterySaveMode = intent.getBooleanExtra("batterySaveMode", true);
+        _frequency = intent.getIntExtra("frequency", 15);
+        _key = intent.getStringExtra("key");
+
         //_frequency = 1; // TEST FOR
 
+        Log.d("smstransmitter", "ServiceSmsTransmitter.onStartCommand, key: " + _key);
 
         if(_batterySaveMode){
+            Log.d("smstransmitter", "branch: _batterySaveMode = true");
             AlarmSmsTransmitter.StartAlarm(_context, _frequency);
         }else{
+            Log.d("smstransmitter", "branch: _batterySaveMode = false");
             PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            _wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "SMS Transmitter wakeLock");
+            // https://stackoverflow.com/questions/39954822/battery-optimizations-wakelocks-on-huawei-emui-4-0/47053479#47053479
+            _wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationManagerService");
             _wakeLock.acquire();
 
-            WifiManager wm = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (wm != null) {
                 _wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "SMS Transmitter wifiLock");
                 //_wifiLock.setReferenceCounted(true);

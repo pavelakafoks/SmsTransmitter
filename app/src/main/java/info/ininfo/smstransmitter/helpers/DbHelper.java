@@ -224,7 +224,8 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void LogInsert(Exception exc){
-        LogInsert(_context.getString(R.string.log_error) + exc.getMessage(), EnumLogType.Error);
+        LogInsert(_context.getString(R.string.log_error)
+                + exc.getMessage() + " : " + exc.getStackTrace(), EnumLogType.Error);
     }
 
     public void LogInsert(String information, EnumLogType logType){
