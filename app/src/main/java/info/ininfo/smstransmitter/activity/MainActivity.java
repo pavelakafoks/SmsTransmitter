@@ -23,11 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import info.ininfo.smstransmitter.R;
 import info.ininfo.smstransmitter.adapters.MessageRecyclerViewAdapter;
@@ -38,8 +34,6 @@ import info.ininfo.smstransmitter.models.Message;
 import info.ininfo.smstransmitter.models.Settings;
 import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
 import info.ininfo.smstransmitter.service.WorkerTask;
-
-//import info.ininfo.smstransmitter.models.Settings;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         }
-
 
 
         //noinspection AccessStaticViaInstance
