@@ -1,11 +1,13 @@
 package info.ininfo.smstransmitter.activity;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -21,17 +23,23 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import info.ininfo.smstransmitter.R;
+import info.ininfo.smstransmitter.adapters.MessageRecyclerViewAdapter;
+import info.ininfo.smstransmitter.engine.Worker;
 import info.ininfo.smstransmitter.helpers.DbHelper;
 import info.ininfo.smstransmitter.models.EnumLogType;
-import info.ininfo.smstransmitter.adapters.MessageRecyclerViewAdapter;
-import info.ininfo.smstransmitter.R;
-import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
-import info.ininfo.smstransmitter.models.Settings;
-import info.ininfo.smstransmitter.engine.Worker;
-import info.ininfo.smstransmitter.service.WorkerTask;
 import info.ininfo.smstransmitter.models.Message;
+import info.ininfo.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
+import info.ininfo.smstransmitter.service.WorkerTask;
+
+//import info.ininfo.smstransmitter.models.Settings;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,43 +53,56 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         DbHelper db = new DbHelper(this);
         //try{
-            super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-            refreshButton = (FloatingActionButton) findViewById(R.id.fab);
-            refreshButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onRefreshClick(view);
-                }
-            });
+        refreshButton = (FloatingActionButton) findViewById(R.id.fab);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRefreshClick(view);
+            }
+        });
 
 
-            // start bind Messages List
-            List<Message> messages = db.MessageGetAll();
-            MessageRecyclerViewAdapter messageAdapter = new MessageRecyclerViewAdapter(messages);
-            RecyclerView mRecycler = (RecyclerView) this.findViewById(R.id.listMessages);
-            mRecycler.setAdapter(messageAdapter);
-            // end Messages bind
+        // start bind Messages List
+        List<Message> messages = db.MessageGetAll();
+        MessageRecyclerViewAdapter messageAdapter = new MessageRecyclerViewAdapter(messages);
+        RecyclerView mRecycler = (RecyclerView) this.findViewById(R.id.listMessages);
+        mRecycler.setAdapter(messageAdapter);
+        // end Messages bind
 
-            mRecycler.setNestedScrollingEnabled(false);    // turn on inertia scroll
+        mRecycler.setNestedScrollingEnabled(false);    // turn on inertia scroll
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
+                Intent intent = new Intent();
+                intent.setAction(android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:" + packageName));
+                startActivity(intent);
+            }
+        }
+
+
 
         //noinspection AccessStaticViaInstance
-        if (Worker.isWorking()){
-             InProcess(refreshButton);
+        if (Worker.isWorking()) {
+            InProcess(refreshButton);
         }
 
         // refresh on pull down
         SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    Refresh();
-                }
-            });
+            @Override
+            public void onRefresh() {
+                Refresh();
+            }
+        });
         //swipeRefreshLayout.setRefreshing(false);  // for Disable ?
 
 
@@ -92,9 +113,9 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
 
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.SEND_SMS},
-                            0);
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    0);
         }
 
 
@@ -138,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         return snackBar;
     }
 
-    public void onRefreshClick(View view){
+    public void onRefreshClick(View view) {
         Settings settings = new Settings(this);
         if (settings.GetKey().isEmpty()) {
             Toast.makeText(this, this.getString(R.string.settings_error_empty_key), Toast.LENGTH_LONG).show();
@@ -152,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void Refresh(){
+    public void Refresh() {
         finish();
         startActivity(new Intent(this, MainActivity.class));
     }
