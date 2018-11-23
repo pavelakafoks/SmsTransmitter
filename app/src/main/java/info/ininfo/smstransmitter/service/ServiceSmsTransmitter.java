@@ -146,13 +146,13 @@ public class ServiceSmsTransmitter extends Service {
 
         if (_batterySaveMode) {
             Log.d("smstransmitter", "branch: _batterySaveMode = true");
-            AlarmSmsTransmitter.StartAlarm(_context, _frequency);
+//            AlarmSmsTransmitter.StartAlarm(_context, _frequency);
         } else {
             Log.d("smstransmitter", "branch: _batterySaveMode = false");
-            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+//            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
             // https://stackoverflow.com/questions/39954822/battery-optimizations-wakelocks-on-huawei-emui-4-0/47053479#47053479
-            _wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationManagerService");
-            _wakeLock.acquire();
+//            _wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationManagerService");
+//            _wakeLock.acquire();
 
             WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             if (wm != null) {
@@ -171,8 +171,8 @@ public class ServiceSmsTransmitter extends Service {
         @Override
         public void run() {
             try {
-                WorkerTask workerTask = new WorkerTask(_context, null, true, false, _key);
-                workerTask.execute();
+//                WorkerTask workerTask = new WorkerTask(_context, null, true, false, _key);
+//                workerTask.execute();
             } catch (Exception exc) {
             }
             _handler.postDelayed(runnableCode, 1000 * 60 * _frequency);

@@ -3,22 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="info.ininfo.smstransmitter">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
-    <uses-permission android:name="com.android.alarm.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="com.android.alarm.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:fullBackupContent="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
@@ -38,14 +39,17 @@
             android:label="@string/title_activity_log"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <service android:name=".service.ServiceSmsTransmitter"
-                 android:exported="true"
-                 android:process=":processSmsTransmitterService"
-                 android:icon="@mipmap/ic_launcher"
-                 android:label="SMS Transmitter service"
-            />
+        <service
+            android:name=".service.ServiceSmsTransmitter"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="SMS Transmitter service"
+            android:process=":processSmsTransmitterService" />
 
-        <receiver android:name=".service.AlarmSmsTransmitter" android:process=":remote" android:exported="true"></receiver>
+        <receiver
+            android:name=".service.AlarmSmsTransmitter"
+            android:exported="true"
+            android:process=":remote"></receiver>
 
         <receiver android:name=".service.AutoStart">
             <intent-filter>
