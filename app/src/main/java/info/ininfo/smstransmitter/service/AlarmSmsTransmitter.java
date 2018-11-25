@@ -9,7 +9,7 @@ import android.support.v4.content.WakefulBroadcastReceiver;
 import android.util.Log;
 
 import info.ininfo.smstransmitter.helpers.DbHelper;
-import info.ininfo.smstransmitter.engine.Worker;
+import info.ininfo.smstransmitter.engine.SmsWorker;
 import info.ininfo.smstransmitter.models.Settings;
 
 public class AlarmSmsTransmitter extends WakefulBroadcastReceiver {
@@ -19,18 +19,18 @@ public class AlarmSmsTransmitter extends WakefulBroadcastReceiver {
     {
         PowerManager.WakeLock wl = null;
         try {
-            String key = new Settings(context).GetKey();
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            // https://stackoverflow.com/questions/39954822/battery-optimizations-wakelocks-on-huawei-emui-4-0/47053479#47053479
-            wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationManagerService");
-            wl.acquire();
-
-            Log.d("smstransmitter", "AlarmSmsTransmitter.onReceive, key: " + key);
-
-            if (!Worker.isWorking()) {
-                WorkerTask workerTask = new WorkerTask(context, null, true, true, key);
-                workerTask.execute();
-            }
+//            String key = new Settings(context).GetKey();
+//            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+//            // https://stackoverflow.com/questions/39954822/battery-optimizations-wakelocks-on-huawei-emui-4-0/47053479#47053479
+//            wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationManagerService");
+//            wl.acquire();
+//
+//            Log.d("smstransmitter", "AlarmSmsTransmitter.onReceive, key: " + key);
+//
+//            if (!SmsWorker.isWorking()) {
+//                WorkerTask workerTask = new WorkerTask(context, null, true, true, key);
+//                workerTask.execute();
+//            }
         }catch (Exception exc){
             new DbHelper(context).LogInsert(exc);
         }

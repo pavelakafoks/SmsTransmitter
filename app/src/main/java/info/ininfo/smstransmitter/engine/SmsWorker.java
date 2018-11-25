@@ -3,9 +3,7 @@ package info.ininfo.smstransmitter.engine;
 import android.content.Context;
 import android.telephony.SmsManager;
 
-import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -31,7 +29,7 @@ import info.ininfo.smstransmitter.models.ReceiverResponse;
 import info.ininfo.smstransmitter.models.ReceiverResponseItem;
 import info.ininfo.smstransmitter.models.Settings;
 
-public class Worker {
+public class SmsWorker {
 
     private Context _context;
     private String _url;
@@ -40,9 +38,9 @@ public class Worker {
     private String _key;
 
     public static boolean inProcess;
-    public static Worker _instance;  // Singleton
+    public static SmsWorker _instance;  // Singleton
 
-    public Worker(Context context, boolean isAlarm, boolean batterySaveMode, String key){
+    public SmsWorker(Context context, boolean isAlarm, boolean batterySaveMode, String key){
         Settings settings = new Settings(context);
         _url = settings.GetUrlGateway();
 

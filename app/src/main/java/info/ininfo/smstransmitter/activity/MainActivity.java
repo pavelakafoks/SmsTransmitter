@@ -25,9 +25,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import info.ininfo.smstransmitter.App;
 import info.ininfo.smstransmitter.R;
 import info.ininfo.smstransmitter.adapters.MessageRecyclerViewAdapter;
-import info.ininfo.smstransmitter.engine.Worker;
+import info.ininfo.smstransmitter.engine.SmsWorker;
 import info.ininfo.smstransmitter.helpers.DbHelper;
 import info.ininfo.smstransmitter.models.EnumLogType;
 import info.ininfo.smstransmitter.models.Message;
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //noinspection AccessStaticViaInstance
-        if (Worker.isWorking()) {
+        if (SmsWorker.isWorking()) {
             InProcess(refreshButton);
         }
 
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ServiceSmsTransmitter.startService(this);
+        ((App) getApplication()).checkWorker(false);
 
 
         // request permissions  (https://developer.android.com/training/permissions/requesting.html)
@@ -158,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, this.getString(R.string.settings_error_empty_key), Toast.LENGTH_LONG).show();
             new DbHelper(this).LogInsert(R.string.settings_error_empty_key, EnumLogType.Error);
         } else {
-            if (!Worker.isWorking()) {
+            if (!SmsWorker.isWorking()) {
                 InProcess(view);
                 WorkerTask workerTask = new WorkerTask(this, this, false, true, settings.GetKey());
                 workerTask.execute();
