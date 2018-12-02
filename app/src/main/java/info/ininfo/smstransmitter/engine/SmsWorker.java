@@ -19,61 +19,63 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import info.ininfo.smstransmitter.R;
 import info.ininfo.smstransmitter.helpers.DateTimeHelper;
 import info.ininfo.smstransmitter.helpers.DbHelper;
-import info.ininfo.smstransmitter.R;
 import info.ininfo.smstransmitter.models.EnumLogType;
 import info.ininfo.smstransmitter.models.EnumMessageStatus;
 import info.ininfo.smstransmitter.models.Message;
 import info.ininfo.smstransmitter.models.ReceiverResponse;
 import info.ininfo.smstransmitter.models.ReceiverResponseItem;
 import info.ininfo.smstransmitter.models.Settings;
+import io.reactivex.subjects.BehaviorSubject;
 
 public class SmsWorker {
 
-    private Context _context;
-    private String _url;
+    private Settings settings;
     private boolean _isAlarm;
-    private boolean _batterySaveMode;
-    private String _key;
+    private boolean _batterySaveMode = true;
+    private boolean inProcess;
+    private DbHelper dbHelper;
+    public final BehaviorSubject<Boolean> workingStatusPublisher = BehaviorSubject.create();
 
-    public static boolean inProcess;
-    public static SmsWorker _instance;  // Singleton
 
-    public SmsWorker(Context context, boolean isAlarm, boolean batterySaveMode, String key){
-        Settings settings = new Settings(context);
-        _url = settings.GetUrlGateway();
-
-        _key = key;
-        _context = context;
-        _instance = this;
-        _isAlarm = isAlarm;
-        _batterySaveMode = batterySaveMode;
+    public SmsWorker(Context context, boolean isAlarm) {
+        this.settings = new Settings(context);
+        this.dbHelper = new DbHelper(context);
+        this._isAlarm = isAlarm;
     }
 
-    public static boolean isWorking(){
+    public boolean isWorking() {
         return inProcess;
     }
 
-    public void Process(){
+    public void Process() {
 
-        if(inProcess){
+        if (inProcess) {
+            return;
+        }
+
+        String key = settings.GetKey();
+        if (key == null || key.isEmpty()) {
             return;
         }
 
         inProcess = true;
+        notifyStatus();
 
         try {
             String response = "";
-            DbHelper dbHelper = new DbHelper(_context);
+
 
             Calendar rightNow = Calendar.getInstance();
             int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-            if (hour > 20 || hour < 9){
+            if (hour > 20 || hour < 9) {
                 if (!_isAlarm) {
                     dbHelper.LogInsert(R.string.log_begin_wrong_time, EnumLogType.Error);
                 }
                 inProcess = false;
+                notifyStatus();
                 return;
             }
 
@@ -98,7 +100,7 @@ public class SmsWorker {
                 }
                 */
 
-                URL url = new URL(_url);
+                URL url = new URL(settings.GetUrlGateway());
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
@@ -108,7 +110,7 @@ public class SmsWorker {
 
                 // parameters
                 HashMap<String, String> postDataParams = new HashMap<>();
-                postDataParams.put("privateKey", _key);
+                postDataParams.put("privateKey", key);
 
                 OutputStream os = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(
@@ -150,9 +152,9 @@ public class SmsWorker {
                     //        .create()
                     //        .fromJson(response, ReceiverResponse.class);
 
-                    if(receiverResponse.wrongKey) {
+                    if (receiverResponse.wrongKey) {
                         dbHelper.LogInsert(R.string.log_key_wrong, EnumLogType.Error);
-                    }else{
+                    } else {
                         if (receiverResponse.messages != null && receiverResponse.messages.size() > 0) {
                             dbHelper.LogInsert(R.string.log_amount_sms_to_send, EnumLogType.Info, String.valueOf(receiverResponse.messages.size()));
                             SmsManager smsManager = SmsManager.getDefault();
@@ -169,11 +171,10 @@ public class SmsWorker {
 
                                 // if DtEvent is defined and DtEvent < CurrentDate
                                 if (!DateTimeHelper.IsDefaultDate(DateTimeHelper.ToDate(msg.dtEvent))
-                                        && DateTimeHelper.ToDate(msg.dtEvent).before(Calendar.getInstance().getTime()))
-                                {
+                                        && DateTimeHelper.ToDate(msg.dtEvent).before(Calendar.getInstance().getTime())) {
                                     dbHelper.MessageUpdateStatusId(msgId, EnumMessageStatus.Error);
                                     dbHelper.LogInsert(R.string.log_send_error_expired, EnumLogType.Error, Message.PhoneFormatted(msg.phone));
-                                }else {
+                                } else {
                                     boolean isSent = false;
                                     int attempts = 0;
                                     Exception lastException = null;
@@ -222,16 +223,20 @@ public class SmsWorker {
                 }
             }
 
-        }finally {
+        } finally {
             inProcess = false;
+            notifyStatus();
         }
     }
 
+    private void notifyStatus() {
+        workingStatusPublisher.onNext(inProcess);
+    }
 
     private String GetPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {
         StringBuilder result = new StringBuilder();
         boolean first = true;
-        for(Map.Entry<String, String> entry : params.entrySet()){
+        for (Map.Entry<String, String> entry : params.entrySet()) {
             if (first) first = false;
             else result.append("&");
             result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));

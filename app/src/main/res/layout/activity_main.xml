@@ -65,7 +65,6 @@
         android:layout_height="15pt"
         android:paddingLeft="20pt"
         android:background="@drawable/round_shape_button"
-        android:onClick="onRefreshClick"
         tools:ignore="RtlHardcoded" />
 
 

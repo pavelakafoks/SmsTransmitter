@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -34,21 +35,30 @@ import info.ininfo.smstransmitter.models.EnumLogType;
 import info.ininfo.smstransmitter.models.Message;
 import info.ininfo.smstransmitter.models.Settings;
 import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
-import info.ininfo.smstransmitter.service.WorkerTask;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FloatingActionButton refreshButton;
-    //private WorkerTask receiverTask;
-    //private AlarmManager alarmMgr;
-    //private PendingIntent alarmIntent;
+    private DbHelper db;
 
+    private FloatingActionButton refreshButton;
+    private Snackbar snackBar;
+    private RecyclerView messagesRecyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private boolean isAlarmSenderRunning;
+    private boolean isManualSenderRunning;
+
+    private Disposable workingStatusSubscription;
+    private Disposable manualSenderStatusSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DbHelper db = new DbHelper(this);
-        //try{
         super.onCreate(savedInstanceState);
+        db = new DbHelper(this);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,19 +68,21 @@ public class MainActivity extends AppCompatActivity {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRefreshClick(view);
+                runManually();
             }
         });
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadMessages();
+            }
+        });
 
-        // start bind Messages List
-        List<Message> messages = db.MessageGetAll();
-        MessageRecyclerViewAdapter messageAdapter = new MessageRecyclerViewAdapter(messages);
-        RecyclerView mRecycler = (RecyclerView) this.findViewById(R.id.listMessages);
-        mRecycler.setAdapter(messageAdapter);
-        // end Messages bind
-
-        mRecycler.setNestedScrollingEnabled(false);    // turn on inertia scroll
+        messagesRecyclerView = (RecyclerView) this.findViewById(R.id.listMessages);
+        messagesRecyclerView.setNestedScrollingEnabled(false);    // turn on inertia scroll
+        loadMessages();
 
         if (Build.VERSION.SDK_INT >= 23) {
             String packageName = getPackageName();
@@ -84,21 +96,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //noinspection AccessStaticViaInstance
-        if (SmsWorker.isWorking()) {
-            InProcess(refreshButton);
-        }
-
-        // refresh on pull down
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Refresh();
-            }
-        });
-        //swipeRefreshLayout.setRefreshing(false);  // for Disable ?
-
+        workingStatusSubscription = getAlarmSmsWorker().workingStatusPublisher
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) {
+                        isAlarmSenderRunning = aBoolean;
+                        invalidateRunningAnimation();
+                    }
+                });
 
         ServiceSmsTransmitter.startService(this);
         ((App) getApplication()).checkWorker(false);
@@ -145,31 +152,86 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public Snackbar InProcess(View view) {
-        Snackbar snackBar;
-        Animation rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.android_rotate_animation);
-        refreshButton.startAnimation(rotateAnimation);
-        snackBar = Snackbar.make(view, R.string.title_getting_data, Snackbar.LENGTH_INDEFINITE);
-        snackBar.show();
-        return snackBar;
+    public void invalidateRunningAnimation() {
+        boolean isRunning = isAlarmSenderRunning || isManualSenderRunning;
+        if (isRunning) {
+            Animation rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.android_rotate_animation);
+            refreshButton.startAnimation(rotateAnimation);
+            snackBar = Snackbar.make(refreshButton, R.string.title_getting_data, Snackbar.LENGTH_INDEFINITE);
+            snackBar.show();
+        } else {
+            refreshButton.clearAnimation();
+            if (snackBar != null) {
+                snackBar.dismiss();
+                snackBar = null;
+            }
+        }
     }
 
-    public void onRefreshClick(View view) {
+    public void runManually() {
         Settings settings = new Settings(this);
         if (settings.GetKey().isEmpty()) {
             Toast.makeText(this, this.getString(R.string.settings_error_empty_key), Toast.LENGTH_LONG).show();
             new DbHelper(this).LogInsert(R.string.settings_error_empty_key, EnumLogType.Error);
         } else {
-            if (!SmsWorker.isWorking()) {
-                InProcess(view);
-                WorkerTask workerTask = new WorkerTask(this, this, false, true, settings.GetKey());
-                workerTask.execute();
+            if (!isAlarmSenderRunning && !isManualSenderRunning) {
+                SmsWorker worker = new SmsWorker(this, false);
+                if (manualSenderStatusSubscription != null) {
+                    manualSenderStatusSubscription.dispose();
+                    manualSenderStatusSubscription = null;
+                }
+                manualSenderStatusSubscription = worker.workingStatusPublisher
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<Boolean>() {
+                            @Override
+                            public void accept(Boolean aBoolean) {
+                                isManualSenderRunning = aBoolean;
+                                invalidateRunningAnimation();
+                                if (!isManualSenderRunning) {
+                                    loadMessages();
+                                }
+                            }
+                        });
+                new ManuallySenderTask().execute(worker);
             }
         }
     }
 
-    public void Refresh() {
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
+    public void loadMessages() {
+        List<Message> messages = db.MessageGetAll();
+        MessageRecyclerViewAdapter messageAdapter = new MessageRecyclerViewAdapter(messages);
+        messagesRecyclerView.setAdapter(messageAdapter);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private App getApp() {
+        return (App) getApplication();
+    }
+
+    private SmsWorker getAlarmSmsWorker() {
+        return getApp().getAlarmSmsWorker();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (workingStatusSubscription != null) {
+            workingStatusSubscription.dispose();
+            workingStatusSubscription = null;
+        }
+
+        if (manualSenderStatusSubscription != null) {
+            manualSenderStatusSubscription.dispose();
+            manualSenderStatusSubscription = null;
+        }
+        super.onDestroy();
+    }
+
+    private static class ManuallySenderTask extends AsyncTask<SmsWorker, Void, String> {
+        @Override
+        protected String doInBackground(SmsWorker... workers) {
+            workers[0].Process();
+            return "";
+        }
     }
 }
