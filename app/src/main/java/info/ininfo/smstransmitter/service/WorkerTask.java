@@ -1,10 +1,9 @@
 package info.ininfo.smstransmitter.service;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import info.ininfo.smstransmitter.engine.SmsWorker;
 import info.ininfo.smstransmitter.activity.MainActivity;
+import info.ininfo.smstransmitter.engine.SmsWorker;
 
 
 public class WorkerTask extends AsyncTask<String, Void, String> {
@@ -12,8 +11,8 @@ public class WorkerTask extends AsyncTask<String, Void, String> {
     private MainActivity _mainActivity;
     private SmsWorker _worker;
 
-    public WorkerTask(Context context, MainActivity mainActivity, boolean isAlarm, boolean batterySaveMode, String key) {
-        _worker = new SmsWorker(context, isAlarm, batterySaveMode, key);
+    public WorkerTask(MainActivity mainActivity, SmsWorker worker) {
+        _worker = worker;
         _mainActivity = mainActivity;
     }
 
@@ -24,8 +23,8 @@ public class WorkerTask extends AsyncTask<String, Void, String> {
     }
 
     protected void onPostExecute(String feed) {
-        if(_mainActivity != null){
-            _mainActivity.Refresh();
+        if (_mainActivity != null) {
+            _mainActivity.loadMessages();
         }
     }
 }

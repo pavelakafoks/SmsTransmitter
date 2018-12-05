@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import info.ininfo.smstransmitter.App;
-import info.ininfo.smstransmitter.engine.SmsWorker;
 
 public class MyWorker extends Worker {
 
@@ -18,20 +17,9 @@ public class MyWorker extends Worker {
     @Override
     public Result doWork() {
         App app = (App) getApplicationContext();
-        String key = app.getSettings().GetKey();
-        if (key == null || key.isEmpty()) {
-            return Result.SUCCESS;
-        }
 
         app.testNotification();
-
-        SmsWorker worker = new SmsWorker(getApplicationContext(),
-                true,
-                false,
-                key
-        );
-
-        worker.Process();
+        app.getAlarmSmsWorker().Process();
 
         return Result.SUCCESS;
     }
