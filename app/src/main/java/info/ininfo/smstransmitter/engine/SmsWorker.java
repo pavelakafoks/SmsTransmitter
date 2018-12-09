@@ -34,7 +34,6 @@ public class SmsWorker {
 
     private Settings settings;
     private boolean _isAlarm;
-    private boolean _batterySaveMode = true;
     private boolean inProcess;
     private DbHelper dbHelper;
     public final BehaviorSubject<Boolean> workingStatusPublisher = BehaviorSubject.create();
@@ -44,10 +43,6 @@ public class SmsWorker {
         this.settings = new Settings(context);
         this.dbHelper = new DbHelper(context);
         this._isAlarm = isAlarm;
-    }
-
-    public boolean isWorking() {
-        return inProcess;
     }
 
     public void Process() {
@@ -72,9 +67,9 @@ public class SmsWorker {
 
             long timeFromLastRequest = System.currentTimeMillis() - settings.getLastRequestTime();
             long disallowedInterval = settings.GetFrequency() * 60_000 / 3;
-            boolean isRequestExcessive = _isAlarm && timeFromLastRequest > disallowedInterval;
+            boolean isRequestTooFrequent = _isAlarm && timeFromLastRequest < disallowedInterval;
 
-            if (isSilentTime || isRequestExcessive) {
+            if (isSilentTime || isRequestTooFrequent) {
                 if (isSilentTime && !_isAlarm) {
                     dbHelper.LogInsert(R.string.log_begin_wrong_time, EnumLogType.Error);
                 }

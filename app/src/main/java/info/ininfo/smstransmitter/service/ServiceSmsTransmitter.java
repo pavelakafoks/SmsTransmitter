@@ -27,13 +27,8 @@ import info.ininfo.smstransmitter.models.Settings;
 
 public class ServiceSmsTransmitter extends Service {
 
-    Handler _handler = new Handler();
     Context _context;
-    PowerManager.WakeLock _wakeLock;
     WifiManager.WifiLock _wifiLock;
-    int _frequency;
-    boolean _batterySaveMode;
-    String _key;
 
     private final String NOW_RUNNING_CHANNEL = "info.ininfo.smstransmitter.NOW_RUNNING";
 
@@ -63,8 +58,7 @@ public class ServiceSmsTransmitter extends Service {
                 new DbHelper(context).LogInsert(R.string.settings_error_empty_key, EnumLogType.Error);
                 goodRun = false;
             } else {
-                if (ServiceSmsTransmitter.IsRunning(context) == false) {
-                    intent.putExtra("batterySaveMode", settings.GetSwitchBatterySaveMode());
+                if (!IsRunning(context)) {
                     intent.putExtra("frequency", settings.GetFrequency());
                     intent.putExtra("key", settings.GetKey());
                     ContextCompat.startForegroundService(context, intent);
@@ -89,33 +83,11 @@ public class ServiceSmsTransmitter extends Service {
 
     @Override
     public void onDestroy() {
-
-        if (_batterySaveMode) {
-            try {
-                AlarmSmsTransmitter.StopAlarm(this);
-            } catch (Exception exc) {
+        try {
+            if (_wifiLock != null) {
+                _wifiLock.release();
             }
-        } else {
-            try {
-                if (_handler != null) {
-                    _handler.removeCallbacksAndMessages(null);
-                }
-            } catch (Exception exc) {
-            }
-
-            try {
-                if (_wakeLock != null) {
-                    _wakeLock.release();
-                }
-            } catch (Exception exc) {
-            }
-
-            try {
-                if (_wifiLock != null) {
-                    _wifiLock.release();
-                }
-            } catch (Exception exc) {
-            }
+        } catch (Exception exc) {
         }
 
         try {
@@ -133,58 +105,20 @@ public class ServiceSmsTransmitter extends Service {
 
         _context = this;
 
-        // NULL REFERENCE ERROR
-        //Bundle extras = intent.getExtras();
-
-        _batterySaveMode = intent.getBooleanExtra("batterySaveMode", true);
-        _frequency = intent.getIntExtra("frequency", 15);
-        _key = intent.getStringExtra("key");
-
-        //_frequency = 1; // TEST FOR
-
-        Log.d("smstransmitter", "ServiceSmsTransmitter.onStartCommand, key: " + _key);
-
-        if (_batterySaveMode) {
-            Log.d("smstransmitter", "branch: _batterySaveMode = true");
-//            AlarmSmsTransmitter.StartAlarm(_context, _frequency);
-        } else {
-            Log.d("smstransmitter", "branch: _batterySaveMode = false");
-//            PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-            // https://stackoverflow.com/questions/39954822/battery-optimizations-wakelocks-on-huawei-emui-4-0/47053479#47053479
-//            _wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "LocationManagerService");
-//            _wakeLock.acquire();
-
-            WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-            if (wm != null) {
-                _wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "SMS Transmitter wifiLock");
-                //_wifiLock.setReferenceCounted(true);
-                _wifiLock.acquire();
-            }
-            _handler.post(runnableCode);
+        WifiManager wm = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wm != null) {
+            _wifiLock = wm.createWifiLock(WifiManager.WIFI_MODE_FULL, "SMS Transmitter wifiLock");
+            //_wifiLock.setReferenceCounted(true);
+            _wifiLock.acquire();
         }
-
         runAsForeground();
         return Service.START_STICKY;
     }
-
-    private Runnable runnableCode = new Runnable() {
-        @Override
-        public void run() {
-            try {
-//                WorkerTask workerTask = new WorkerTask(_context, null, true, false, _key);
-//                workerTask.execute();
-            } catch (Exception exc) {
-            }
-            _handler.postDelayed(runnableCode, 1000 * 60 * _frequency);
-        }
-    };
-
 
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
-
 
     private void runAsForeground() {
         if (shouldCreateNowRunningChannel()) {
@@ -243,5 +177,4 @@ public class ServiceSmsTransmitter extends Service {
         Intent intent = new Intent(this, MainActivity.class);
         return PendingIntent.getActivity(this, 0, intent, 0);
     }
-
 }

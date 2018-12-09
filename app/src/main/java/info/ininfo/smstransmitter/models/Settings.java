@@ -68,16 +68,6 @@ public class Settings {
         }
     }
 
-    @Deprecated
-    public boolean GetSwitchBatterySaveMode() {
-        return _preferences.getBoolean("switchBatterySaveMode", true);
-    }
-
-    @Deprecated
-    public void SetSwitchBatterySaveMode(boolean value) {
-        _preferences.edit().putBoolean("switchBatterySaveMode", value).apply();
-    }
-
     /**
      * Save last request time
      * */

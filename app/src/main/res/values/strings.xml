@@ -43,7 +43,6 @@
     <string name="settings_cancel">Cancel</string>
     <string name="settings_error_empty_key">Need to set Private Key in Settings.</string>
     <string name="settings_error_empty_gateway">Need to set Gateway Url in Settings.</string>
-    <string name="settings_battery_save_mode">Battery save mode.</string>
     <string name="settings_url_gateway_label">Gateway URL: </string>
     <string name="settings_url_gateway_default">https://timeplan.me/api/smstransmitter/v1</string>
 
