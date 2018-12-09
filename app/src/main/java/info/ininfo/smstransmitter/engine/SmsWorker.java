@@ -67,13 +67,18 @@ public class SmsWorker {
         try {
             String response = "";
 
+            int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            boolean isSilentTime = currentHour > 20 || currentHour < 9;
 
-            Calendar rightNow = Calendar.getInstance();
-            int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-            if (hour > 20 || hour < 9) {
-                if (!_isAlarm) {
+            long timeFromLastRequest = System.currentTimeMillis() - settings.getLastRequestTime();
+            long disallowedInterval = settings.GetFrequency() * 60_000 / 3;
+            boolean isRequestExcessive = _isAlarm && timeFromLastRequest > disallowedInterval;
+
+            if (isSilentTime || isRequestExcessive) {
+                if (isSilentTime && !_isAlarm) {
                     dbHelper.LogInsert(R.string.log_begin_wrong_time, EnumLogType.Error);
                 }
+
                 inProcess = false;
                 notifyStatus();
                 return;
@@ -133,15 +138,15 @@ public class SmsWorker {
                     dbHelper.LogInsert(R.string.log_web_server_response_error, EnumLogType.Error);
                     isError = true;
                 }
-
             } catch (Exception e) {
                 //dbHelper.LogInsert(e);
                 dbHelper.LogInsert(R.string.log_web_server_error, EnumLogType.Error);
                 isError = true;
             }
 
-
             if (!isError) {
+                settings.setLastRequestTime(System.currentTimeMillis());
+
                 int maxAttemptCount = 3;
                 int sendDelay = 3000;
 

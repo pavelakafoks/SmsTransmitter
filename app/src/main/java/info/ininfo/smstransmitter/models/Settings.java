@@ -43,11 +43,17 @@ public class Settings {
         return _preferences.getBoolean("switchSendAutomatically", true);
     }
 
+    /**
+     * Allow periodical workers
+     */
     public void SetSwitchSendAutomatically(boolean value) {
         _preferences.edit().putBoolean("switchSendAutomatically", value).apply();
         resetWorker();
     }
 
+    /**
+     * Periodical scheduled workers interval in minute
+     */
     public int GetFrequency() {
         return _preferences.getInt("frequency", 30);
     }
@@ -62,12 +68,28 @@ public class Settings {
         }
     }
 
+    @Deprecated
     public boolean GetSwitchBatterySaveMode() {
         return _preferences.getBoolean("switchBatterySaveMode", true);
     }
 
+    @Deprecated
     public void SetSwitchBatterySaveMode(boolean value) {
         _preferences.edit().putBoolean("switchBatterySaveMode", value).apply();
+    }
+
+    /**
+     * Save last request time
+     * */
+    public void setLastRequestTime(long ms) {
+        _preferences.edit().putLong("lastRequestTime", ms).apply();
+    }
+
+    /**
+     * Used by periodical workers to preventing excessive requests
+     * */
+    public long getLastRequestTime() {
+        return _preferences.getLong("lastRequestTime", 0);
     }
 
     private void resetWorker() {
