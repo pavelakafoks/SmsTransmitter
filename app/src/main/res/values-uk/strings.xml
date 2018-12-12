@@ -43,7 +43,6 @@
     <string name="settings_cancel">Отменить</string>
     <string name="settings_error_empty_key">Задайте ключ подключения в настройках.</string>
     <string name="settings_error_empty_gateway">Установите url адрес забора сообщений.</string>
-    <string name="settings_battery_save_mode">Режим экономии аккумулятора.</string>
     <string name="settings_url_gateway_label">URL шлюза:</string>
     <string name="settings_url_gateway_default">https://napriem.com/api/smstransmitter/v1</string>
 

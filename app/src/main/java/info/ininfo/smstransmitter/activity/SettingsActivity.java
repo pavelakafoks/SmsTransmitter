@@ -11,11 +11,11 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import info.ininfo.smstransmitter.R;
 import info.ininfo.smstransmitter.helpers.DbHelper;
 import info.ininfo.smstransmitter.models.EnumLogType;
-import info.ininfo.smstransmitter.R;
-import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
 import info.ininfo.smstransmitter.models.Settings;
+import info.ininfo.smstransmitter.service.ServiceSmsTransmitter;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         initFromSettings();
 
         // switch change
-        Switch switchSendAutomatically = (Switch)  findViewById(R.id.switchSendAutomatically);
+        Switch switchSendAutomatically = (Switch) findViewById(R.id.switchSendAutomatically);
         onSwitchSendAutomaticallyChange(switchSendAutomatically.isChecked());
         switchSendAutomatically.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -50,22 +50,16 @@ public class SettingsActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
     }
 
-    public void onSwitchSendAutomaticallyChange(boolean isChecked){
+    public void onSwitchSendAutomaticallyChange(boolean isChecked) {
         TextView frequencyLabel = (TextView) findViewById(R.id.frequencyLabel);
-        int visible = frequencyLabel.VISIBLE;
-        if (!isChecked){
-            visible = frequencyLabel.INVISIBLE;
-        }
-        frequencyLabel.setVisibility(visible);
+        int visibility = isChecked ? View.VISIBLE : View.INVISIBLE;
+        frequencyLabel.setVisibility(visibility);
 
         Spinner frequency = (Spinner) findViewById(R.id.frequency);
-        frequency.setVisibility(visible);
-
-        Switch switchBatterySaveMode = (Switch) findViewById(R.id.switchBatterySaveMode);
-        switchBatterySaveMode.setVisibility(visible);
+        frequency.setVisibility(visibility);
     }
 
-    public void initFromSettings(){
+    public void initFromSettings() {
         TextView key = (TextView) findViewById(R.id.key);
         key.setText(_settings.GetKey());
 
@@ -77,18 +71,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         Spinner frequency = (Spinner) findViewById(R.id.frequency);
         int frequencyValue = _settings.GetFrequency();
-        if (frequencyValue == 15){
+        if (frequencyValue == 15) {
             frequency.setSelection(0);
-        }else if (frequencyValue == 20){
+        } else if (frequencyValue == 20) {
             frequency.setSelection(1);
-        }else if (frequencyValue == 30){
+        } else if (frequencyValue == 30) {
             frequency.setSelection(2);
-        }else{
+        } else {
             frequency.setSelection(3);
         }
-
-        Switch switchBatterySaveMode = (Switch) findViewById(R.id.switchBatterySaveMode);
-        switchBatterySaveMode.setChecked(_settings.GetSwitchBatterySaveMode());
     }
 
     public void onButtonClickSave(View view) {
@@ -100,7 +91,7 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, this.getString(R.string.settings_error_empty_key), Toast.LENGTH_LONG).show();
             new DbHelper(this).LogInsert(R.string.settings_error_empty_key, EnumLogType.Error);
             keyIsEmpty = true;
-        }else{
+        } else {
             _settings.SetKey(keyText);
         }
 
@@ -112,7 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(this, this.getString(R.string.settings_error_empty_gateway), Toast.LENGTH_LONG).show();
             new DbHelper(this).LogInsert(R.string.settings_error_empty_gateway, EnumLogType.Error);
             urlGatewayIsEmpty = true;
-        }else{
+        } else {
             _settings.SetUrlGateway(urlGatewayText);
         }
 
@@ -123,20 +114,16 @@ public class SettingsActivity extends AppCompatActivity {
         Spinner frequency = (Spinner) findViewById(R.id.frequency);
         int frequencyMinutes;
         int frequencyIndex = frequency.getSelectedItemPosition();
-        if (frequencyIndex == 0){
+        if (frequencyIndex == 0) {
             frequencyMinutes = 15;
-        }else if (frequencyIndex == 1){
+        } else if (frequencyIndex == 1) {
             frequencyMinutes = 20;
-        }else if (frequencyIndex == 2){
+        } else if (frequencyIndex == 2) {
             frequencyMinutes = 30;
-        }else{
+        } else {
             frequencyMinutes = 60;
         }
         _settings.SetFrequency(frequencyMinutes);
-
-        Switch switchBatterySaveMode = (Switch) findViewById(R.id.switchBatterySaveMode);
-        _settings.SetSwitchBatterySaveMode(switchBatterySaveMode.isChecked());
-
 
         if (!keyIsEmpty && !urlGatewayIsEmpty) {
             ServiceSmsTransmitter.stopService(this);
@@ -148,7 +135,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        findViewById( R.id.keyWrapper ).requestFocus();
+        findViewById(R.id.keyWrapper).requestFocus();
     }
 
 

@@ -18,7 +18,6 @@ public class MyWorker extends Worker {
     public Result doWork() {
         App app = (App) getApplicationContext();
 
-        app.testNotification();
         app.getAlarmSmsWorker().Process();
 
         return Result.SUCCESS;
