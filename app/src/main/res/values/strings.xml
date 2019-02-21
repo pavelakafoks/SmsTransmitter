@@ -45,6 +45,7 @@
     <string name="settings_error_empty_gateway">Need to set Gateway Url in Settings.</string>
     <string name="settings_url_gateway_label">Gateway URL: </string>
     <string name="settings_url_gateway_default">https://timeplan.me/api/smstransmitter/v1</string>
+    <string name="settings_send_any_time_label">Allow to send sms at night (21:00 - 9:00): </string>
 
     <string name="demo_settings_key">ABCDEFG</string>
 

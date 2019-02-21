@@ -63,7 +63,7 @@ public class SmsWorker {
             String response = "";
 
             int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-            boolean isSilentTime = currentHour > 20 || currentHour < 9;
+            boolean isSilentTime = (currentHour > 20 || currentHour < 9) || settings.GetSendAnyTime();
 
             long timeFromLastRequest = System.currentTimeMillis() - settings.getLastRequestTime();
             long disallowedInterval = settings.GetFrequency() * 60_000 / 3;

@@ -44,7 +44,7 @@ On key error the response must be:
 ```
 
 ###### Limitations of application:
-- We are sending sms from 9 am to 9 pm (according to phone's time)
+- We are sending sms from 9 am to 9 pm according to phone's time (possible to disable in settings)
 - Depends on phone and Android version may be need to change additional settings of phone - energy saving mode for selected applications, as option, for correct working application in automatic mode(by scheduller).  For example, Huawei phones need to set Settings -> Extended settings -> Batary Manager -> add application "SMS Transmitter" in the protected list. Also have a look at settings - "Always use data in mobile networks", "Connectivity support WiFi in sleep mode" and so on. Please, search more information about this moment in internet if you have problems. Native android phones work fine.
 For example, problems with Huawei phones described here: [https://stackoverflow.com/questions/40276458/foreground-service-killed-on-huawei-gra-ul00-protected-apps-enabled](https://stackoverflow.com/questions/40276458/foreground-service-killed-on-huawei-gra-ul00-protected-apps-enabled "https://stackoverflow.com/questions/40276458/foreground-service-killed-on-huawei-gra-ul00-protected-apps-enabled")
 
@@ -98,7 +98,7 @@ For example, problems with Huawei phones described here: [https://stackoverflow.
 ```
 
 ###### Ограничение приложения:
-- Cмс отправляются только с 9 до 21 часа по времени телефона
+- Cмс отправляются только с 9 до 21 часа по времени телефона (можно отключить в настройках)
 - В зависимости от производителя телефона и версии Android возможно потребуется произвести дополнительные настройки в настройках энергосбережения вашего телефона для корректной работы программы в автоматическом режиме.  Например, для Huawei телефонов нужно в Настройки -> Расширенные настройки -> Диспетчер батареи добавить приложение "SMS Transmitter" в список защищённых. Также к таким настройкам относится - "Постоянная передача данных в мобильной сети", "Поддержка соединения WiFi в спящем режиме". При восстановлении соединения приложение может восстановить работу в автоматическом режиме. Если телефон стоит на зарядке, то SMS Transmitter в автоматическом режиме работает более надёжно. 
 Наблюдаются проблемы с Huawei телефонами, описание: [https://stackoverflow.com/questions/40276458/foreground-service-killed-on-huawei-gra-ul00-protected-apps-enabled](https://stackoverflow.com/questions/40276458/foreground-service-killed-on-huawei-gra-ul00-protected-apps-enabled "https://stackoverflow.com/questions/40276458/foreground-service-killed-on-huawei-gra-ul00-protected-apps-enabled")
 

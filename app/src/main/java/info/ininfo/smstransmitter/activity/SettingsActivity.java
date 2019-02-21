@@ -69,6 +69,9 @@ public class SettingsActivity extends AppCompatActivity {
         Switch switchSendAutomatically = (Switch) findViewById(R.id.switchSendAutomatically);
         switchSendAutomatically.setChecked(_settings.GetSwitchSendAutomatically());
 
+        Switch switchSendAnyTime = (Switch) findViewById(R.id.switchSendAnyTime);
+        switchSendAnyTime.setChecked(_settings.GetSendAnyTime());
+
         Spinner frequency = (Spinner) findViewById(R.id.frequency);
         int frequencyValue = _settings.GetFrequency();
         if (frequencyValue == 15) {
@@ -107,9 +110,11 @@ public class SettingsActivity extends AppCompatActivity {
             _settings.SetUrlGateway(urlGatewayText);
         }
 
-
         Switch switchSendAutomatically = (Switch) findViewById(R.id.switchSendAutomatically);
         _settings.SetSwitchSendAutomatically(switchSendAutomatically.isChecked());
+
+        Switch switchSendAnyTime = (Switch) findViewById(R.id.switchSendAnyTime);
+        _settings.SetSendAnyTime(switchSendAnyTime.isChecked());
 
         Spinner frequency = (Spinner) findViewById(R.id.frequency);
         int frequencyMinutes;

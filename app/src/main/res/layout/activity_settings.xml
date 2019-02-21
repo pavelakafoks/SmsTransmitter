@@ -64,6 +64,13 @@
         android:switchPadding="10pt"
         android:id="@+id/switchSendAutomatically" />
 
+    <Switch
+        android:text="@string/settings_send_any_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:switchPadding="10pt"
+        android:id="@+id/switchSendAnyTime" />
 
     <TextView
         android:text="@string/settings_frequency_label"

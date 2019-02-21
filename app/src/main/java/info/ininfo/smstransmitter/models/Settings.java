@@ -69,6 +69,17 @@ public class Settings {
     }
 
     /**
+     * Periodical scheduled workers interval in minute
+     */
+    public boolean GetSendAnyTime() {
+        return _preferences.getBoolean("sendAnyTime", false);
+    }
+
+    public void SetSendAnyTime(boolean value) {
+        _preferences.edit().putBoolean("sendAnyTime", value).apply();
+    }
+
+    /**
      * Save last request time
      * */
     public void setLastRequestTime(long ms) {
