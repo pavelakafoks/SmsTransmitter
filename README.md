@@ -1,6 +1,8 @@
 # SMS Transmitter
 Automatic sms sender from Android device, android sms gateway
 
+[Desciption from Google Play (with screenshots!)](GooglePlayDescription.pdf)
+
 Описание на русском языке будет ниже.
 
 GitHub: [https://github.com/pavelakafoks/SmsTransmitter](https://github.com/pavelakafoks/SmsTransmitter "https://github.com/pavelakafoks/SmsTransmitter")
