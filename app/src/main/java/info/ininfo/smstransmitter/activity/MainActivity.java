@@ -1,7 +1,10 @@
 package info.ininfo.smstransmitter.activity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -115,9 +118,23 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.SEND_SMS},
-                    0);
+            final Activity self = this;
+
+            AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+            alertBuilder.setCancelable(false);
+            alertBuilder.setTitle(R.string.permission_sms_title);
+            alertBuilder.setMessage(R.string.permission_sms_information);
+            alertBuilder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    ActivityCompat.requestPermissions(self,
+                            new String[]{Manifest.permission.SEND_SMS},
+                            0);
+                }
+            });
+
+            AlertDialog alert = alertBuilder.create();
+            alert.show();
         }
 
 

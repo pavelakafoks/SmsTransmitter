@@ -47,6 +47,22 @@
     <string name="settings_url_gateway_default">https://timeplan.me/api/smstransmitter/v1</string>
     <string name="settings_send_any_time_label">Allow to send sms at night (21:00 - 9:00): </string>
 
+    <string name="permission_sms_title">SMS SEND permission required</string>
+    <string name="permission_sms_information">
+<![CDATA[
+PRIVACY POLICY\n
+ Pavel Samoilenko built the SmsTransmitter app as an Open Source app as a part of TimePlan.me service. This app is provided at no cost and is intended for use as is.\n
+REQUIRED PERMISSIONS\n
+ For the operation of the main features of the application (SMS notifications), you need to grand permissions to send SMS.\n
+INFORMATION COLLECTION\n
+ Application not require you to provide any personally identifiable information.\n
+WORK TRANSPARENCY\n
+ App gets messages to send from the site which you set in settings(using internal API and private key).
+ You can see all sent messages in the main interface. Application does not make any hidden operations.\n
+ Full version:  https://timeplan.me/about/privacy
+]]>
+    </string>
+
     <string name="demo_settings_key">ABCDEFG</string>
 
     <string name="demo_messages_1_phone">10123456781</string>

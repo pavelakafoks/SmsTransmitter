@@ -7,11 +7,11 @@ android {
     }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "info.ininfo.smstransmitter"
+        applicationId "smstransmitter.timeplan.me"
         minSdkVersion 15
         targetSdkVersion 28
-        versionCode 4
-        versionName "3.1"
+        versionCode 7
+        versionName "3.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
